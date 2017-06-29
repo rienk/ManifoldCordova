@@ -11,6 +11,7 @@
 
     <dependency id="cordova-plugin-whitelist" version=">=1.0.1" />
     <dependency id="cordova-plugin-network-information" version=">=1.0.0" />
+	<dependency id="cordova-plugin-wkwebview-engine" version=">=1.0.0" />
 
     <hook type="before_prepare" src="scripts/updateConfigurationBeforePrepare.js" />
     <hook type="after_prepare" src="scripts/updateConfigurationAfterPrepare.js" />
