@@ -175,7 +175,7 @@ function configureParser(context) {
         ConfigParser = context.requireCordovaModule('cordova-lib/src/configparser/ConfigParser');
     }
     
-    etree = context.requireCordovaModule('cordova-lib/node_modules/elementtree');
+    etree = context.requireCordovaModule('elementtree');
 
     var xml = cordova_util.projectConfig(projectRoot);
     config = createConfigParser(xml, etree, ConfigParser);   
@@ -235,7 +235,7 @@ function processAccessRules(manifest) {
         if (manifest.mjs_extended_scope && manifest.mjs_extended_scope instanceof Array) {
             manifest.mjs_extended_scope.forEach(function (item) {
                 // To avoid duplicates, add the rule only if it does not have the base URL as a prefix
-                if (item.indexOf(baseUrl) !== 0 ) {  
+                if (item.url.indexOf(baseUrl) !== 0 ) {  
                     // add as a navigation rule
                     var navigationEl = new etree.SubElement(config.doc.getroot(), 'allow-navigation');
                     navigationEl.set('hap-rule','yes');
@@ -661,11 +661,15 @@ module.exports = function (context) {
         // Even though a relative URL is a valid according to the W3C spec, a full URL 
         // is needed because the plugin cannot determine the manifest's origin.
         var start_url;
+		var from_local = false;
         if (manifest.start_url) {
           start_url = url.parse(manifest.start_url);
         }
 
-        if (!(start_url && start_url.hostname && start_url.protocol)) { 
+		if (start_url && !start_url.hostname && !start_url.protocol) {
+          from_local = true;
+          start_url.hostname = path.join(projectRoot, 'www');
+        } else if (!(start_url && start_url.hostname && start_url.protocol)) {
           logger.error('Invalid or incomplete W3C manifest.');
           var err = new Error('The start_url member in the manifest is required and must be a full URL.');
           return task.reject(err);
