@@ -239,7 +239,7 @@ function processAccessRules(manifest) {
                     // add as a navigation rule
                     var navigationEl = new etree.SubElement(config.doc.getroot(), 'allow-navigation');
                     navigationEl.set('hap-rule','yes');
-                    navigationEl.set('href', item);  
+                    navigationEl.set('href', item.url);  
                 }
             });
         }
