@@ -82,7 +82,7 @@ module.exports = function (context) {
     return;
   }
 
-  etree = context.requireCordovaModule('cordova-lib/node_modules/elementtree');
+  etree = context.requireCordovaModule('elementtree');
   
   // move contents of the assets folder to the windows platform dir
   var Q = context.requireCordovaModule('q');
